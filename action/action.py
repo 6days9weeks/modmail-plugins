@@ -69,7 +69,7 @@ class Action(commands.Cog):
 
         # Building The Embed
         embed = discord.Embed(color=self.bot.main_color)
-        embed.description = f"**{author.mention} slap {user.mention}**"
+        embed.description = f"**{author.mention} slaps {user.mention}**"
         embed.set_footer(text="Made with the help of nekos.life")
         embed.set_image(url=slaps)
         await ctx.send(embed=embed)        
