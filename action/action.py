@@ -1,8 +1,8 @@
+from typing import Optional
+
 import discord
 from discord.ext import commands
-import nekos
-from core import checks
-from core.models import PermissionLevel
+from nekosbest import Client
 
 
 class Action(commands.Cog):
@@ -12,158 +12,236 @@ class Action(commands.Cog):
 
     def __init__(self, bot):
         self.bot = bot
+        self.client = Client()
 
     @commands.command()
-    @checks.has_permissions(PermissionLevel.REGULAR)
-    async def kiss(self, ctx, *, user: discord.Member):
+    @commands.guild_only()
+    @commands.cooldown(1, 10, commands.BucketType.member)
+    @commands.bot_has_permissions(embed_links=True)
+    async def kiss(self, ctx: commands.Context, user: discord.Member):
         """Kiss a user!"""
 
-        author = ctx.message.author
-        kisses = nekos.img('kiss')
+        author = ctx.author
+        result = await self.client.get_image("kiss")
 
-        # Building Embed
-        embed = discord.Embed(color=self.bot.main_color)
-        embed.description = f"**{author.mention} kisses {user.mention}**"
-        embed.set_footer(text="Made with the help of nekos.life")
-        embed.set_image(url=kisses)
-        await ctx.send(embed=embed)
-        
-   
-    @commands.command()
-    @checks.has_permissions(PermissionLevel.REGULAR)
-    async def pat(self, ctx, *, user: discord.Member):
-        """Pat a user!"""
+        if user == self.bot.user:
+            msg = f"*OwO! kisses {author.mention} back!*"
+            return await ctx.reply(msg)
 
-        author = ctx.message.author
-        pats = nekos.img('pat')
-
-        # Building Embed
-        embed = discord.Embed(color=self.bot.main_color)
-        embed.description = f"**{author.mention} pats {user.mention}**"
-        embed.set_footer(text="Made with the help of nekos.life")
-        embed.set_image(url=pats)
-        await ctx.send(embed=embed)     
+        if user is not ctx.author:
+            embed = discord.Embed(colour=user.colour)
+            msg = f"> *{author.mention} kisses {user.mention}* <a:kiss:795291849119367169>"
+            embed.set_image(url=result.url)
+            return await ctx.send(content=msg, embed=embed)
+        else:
+            msg = "Congratulations, you kissed yourself! LOL!!! <a:kiss:795291849119367169>"
+            await ctx.reply(msg)
 
     @commands.command()
-    @checks.has_permissions(PermissionLevel.REGULAR)
-    async def hug(self, ctx, *, user: discord.Member):
-        """Hug a user!"""
+    @commands.guild_only()
+    @commands.cooldown(1, 10, commands.BucketType.member)
+    @commands.bot_has_permissions(embed_links=True)
+    async def pat(self, ctx: commands.Context, user: discord.Member):
+        """Pats a user!"""
 
-        author = ctx.message.author
-        hugs = nekos.img('hug')
+        author = ctx.author
+        result = await self.client.get_image("pat")
 
-        # Building The Embed
-        embed = discord.Embed(color=self.bot.main_color)
-        embed.description = f"**{author.mention} hugs {user.mention}**"
-        embed.set_footer(text="Made with the help of nekos.life")
-        embed.set_image(url=hugs)
-        await ctx.send(embed=embed)
+        if user == self.bot.user:
+            msg = "Thanks for the pats, I guess."
+            return await ctx.reply(msg)
 
-    @commands.command()
-    @checks.has_permissions(PermissionLevel.REGULAR)
-    async def slap(self, ctx, *, user: discord.Member):
-        """Slap a user!"""
-
-        author = ctx.message.author
-        slaps = nekos.img('slap')
-
-        # Building The Embed
-        embed = discord.Embed(color=self.bot.main_color)
-        embed.description = f"**{author.mention} slaps {user.mention}**"
-        embed.set_footer(text="Made with the help of nekos.life")
-        embed.set_image(url=slaps)
-        await ctx.send(embed=embed)        
+        if user is not author:
+            msg = f"> *{author.mention} pats {user.mention}*"
+        else:
+            msg = f"> *{author.mention} pats themselves, I guess?*"
+        embed = discord.Embed(colour=user.color)
+        embed.set_image(url=result.url)
+        await ctx.send(content=msg, embed=embed)
 
     @commands.command()
-    @checks.has_permissions(PermissionLevel.REGULAR)
-    async def baka(self, ctx, *, user: discord.Member):
-        """Call a user baka!"""
+    @commands.guild_only()
+    @commands.cooldown(1, 10, commands.BucketType.member)
+    @commands.bot_has_permissions(embed_links=True)
+    async def hug(self, ctx: commands.Context, user: discord.Member):
+        """hug a user!"""
 
-        author = ctx.message.author
-        bakas = nekos.img('baka')
-
-        # Building The Embed
-        embed = discord.Embed(color=self.bot.main_color)
-        embed.description = f"**{author.mention} calls {user.mention} baka**"
-        embed.set_footer(text="Made with the help of nekos.life")
-        embed.set_image(url=bakas)
-        await ctx.send(embed=embed)  
-
+        author = ctx.author
+        result = await self.client.get_image("hug")
+        if user == self.bot.user:
+            msg = f"Awwww thanks! So nice of you! *hugs {author.mention} back*"
+            return await ctx.reply(msg)
+        if user is not author:
+            embed = discord.Embed(colour=user.colour)
+            msg = f"> *{author.mention} hugs {user.mention}*"
+            embed.set_image(url=result.url)
+            return await ctx.send(content=msg, embed=embed)
+        else:
+            msg = "One dOEs NOt SiMplY hUg THeIR oWn sELF!"
+            await ctx.reply(msg)
 
     @commands.command()
-    @checks.has_permissions(PermissionLevel.REGULAR)
-    async def tickle(self, ctx, *, user: discord.Member):
+    @commands.guild_only()
+    @commands.cooldown(1, 10, commands.BucketType.member)
+    @commands.bot_has_permissions(embed_links=True)
+    async def slap(self, ctx: commands.Context, user: discord.Member):
+        """Slaps a user!"""
+
+        author = ctx.author
+        result = await self.client.get_image("slap")
+
+        if user == self.bot.user:
+            msg = "**Ｎ Ｏ   Ｕ**"
+            return await ctx.reply(msg)
+        if user is not author:
+            embed = discord.Embed(colour=user.colour)
+            msg = f"> *{author.mention} slaps {user.mention}*"
+            embed.set_image(url=result.url)
+            return await ctx.send(content=msg, embed=embed)
+        else:
+            msg = "Don't slap yourself, you're precious!"
+            await ctx.reply(msg)
+
+    @commands.command()
+    @commands.guild_only()
+    @commands.cooldown(1, 10, commands.BucketType.member)
+    @commands.bot_has_permissions(embed_links=True)
+    async def baka(self, ctx: commands.Context, user: discord.Member):
+        """Call a user BAKA with a GIF reaction!"""
+
+        author = ctx.author
+        result = await self.client.get_image("baka")
+
+        if user == self.bot.user:
+            msg = "**Ｎ Ｏ   Ｕ**"
+            return await ctx.reply(msg)
+        if user is not author:
+            embed = discord.Embed(colour=user.colour)
+            msg = f"> *{author.mention} calls {user.mention} a BAKA bahahahahaha*"
+            embed.set_image(url=result.url)
+            return await ctx.send(content=msg, embed=embed)
+        else:
+            msg = "You really are BAKA, stupid."
+            await ctx.reply(msg)
+
+    @commands.command()
+    @commands.guild_only()
+    @commands.cooldown(1, 10, commands.BucketType.member)
+    @commands.bot_has_permissions(embed_links=True)
+    async def tickle(self, ctx: commands.Context, user: discord.Member):
         """Tickles a user!"""
 
-        author = ctx.message.author
-        tickles = nekos.img('tickle')
+        author = ctx.author
+        result = await self.client.get_image("tickle")
 
-        # Building The Embed
-        embed = discord.Embed(color=self.bot.main_color)
-        embed.description = f"**{author.mention} tickles {user.mention}**"
-        embed.set_footer(text="Made with the help of nekos.life")
-        embed.set_image(url=tickles)
+        if user == self.bot.user:
+            msg = f"LMAO. Tickling a bot now, are we? {author.mention}"
+            return await ctx.reply(msg)
+        if user is not author:
+            embed = discord.Embed(colour=user.colour)
+            msg = f"> *{author.mention} tickles {user.mention}*"
+            embed.set_image(url=result.url)
+            return await ctx.send(content=msg, embed=embed)
+        else:
+            msg = "Tickling yourself is boring!"
+            msg += " Tickling others is more fun though."
+            await ctx.reply(msg)
+
+    @commands.command()
+    @commands.guild_only()
+    @commands.cooldown(1, 10, commands.BucketType.member)
+    @commands.bot_has_permissions(embed_links=True)
+    async def smug(self, ctx: commands.Context, user: Optional[discord.Member] = None):
+        """Be smug towards someone!"""
+
+        author = ctx.author
+        result = await self.client.get_image("smug")
+
+        embed = discord.Embed(colour=author.colour)
+        if not user:
+            msg = f"> *{author.mention} smugs at @\u200bsomeone* <:kotorismug:795293439980732416>"
+        else:
+            user = user[0]
+            msg = f"> *{author.mention} smugs at {user.mention}* <:kotorismug:795293439980732416>"
+        embed.set_image(url=result.url)
+        await ctx.send(content=msg, embed=embed)
+
+    @commands.command()
+    @commands.guild_only()
+    @commands.cooldown(1, 10, commands.BucketType.member)
+    @commands.bot_has_permissions(embed_links=True)
+    async def cuddle(self, ctx: commands.Context, user: discord.Member):
+        """Cuddles a user!"""
+
+        author = ctx.author
+        result = await self.client.get_image("cuddle")
+        if user == self.bot.user:
+            return await ctx.reply("Come come. We'll cuddle all day and night!")
+        if user is not author:
+            embed = discord.Embed(colour=user.colour)
+            msg = f"> *{author.mention} cuddles {user.mention}*"
+            embed.set_image(url=result.url)
+            return await ctx.send(content=msg, embed=embed)
+        else:
+            msg = "Cuddling yourself sounds like a gay move LMFAO!"
+            await ctx.reply(msg)
+
+    @commands.command()
+    @commands.guild_only()
+    @commands.cooldown(1, 10, commands.BucketType.member)
+    @commands.bot_has_permissions(embed_links=True)
+    async def poke(self, ctx: commands.Context, user: discord.Member):
+        """Pokes a user!"""
+
+        author = ctx.author
+        result = await self.client.get_image("poke")
+
+        if user == self.bot.user:
+            msg = f"Awwww! Hey there. *pokes {author.mention} back!*"
+            return await ctx.reply(msg)
+        if user is not author:
+            embed = discord.Embed(colour=user.colour)
+            msg = f"> *{author.mention} casually pokes {user.mention}*"
+            embed.set_image(url=result.url)
+            return await ctx.send(content=msg, embed=embed)
+        else:
+            msg = "Self-poking is widely regarded as a bad move!"
+            await ctx.reply(msg)
+
+    @commands.command()
+    @commands.guild_only()
+    @commands.cooldown(1, 10, commands.BucketType.member)
+    @commands.bot_has_permissions(embed_links=True)
+    async def feed(self, ctx: commands.Context, user: discord.Member):
+        """Feeds a user!"""
+
+        author = ctx.author
+        result = await self.client.get_image("feed")
+
+        if user == self.bot.user:
+            msg = f"OWO! Yummy food! Thanks {author.mention} :heart:"
+            return await ctx.reply(msg)
+        if user is not author:
+            embed = discord.Embed(colour=user.colour)
+            msg = f"> *{author.mention} feeds {user.mention}*"
+            embed.set_image(url=result.url)
+            await ctx.send(content=msg, embed=embed)
+        else:
+            msg = "Congrats you just fed yourself."
+            await ctx.reply(msg)
+
+    @commands.command()
+    @commands.cooldown(1, 10, commands.BucketType.member)
+    @commands.bot_has_permissions(embed_links=True)
+    async def cry(self, ctx: commands.Context):
+        """Let others know you feel like crying or just wanna cry."""
+
+        author = ctx.author
+        result = await self.client.get_image("cry")
+        embed = discord.Embed(colour=author.colour)
+        embed.description = f"{author.mention} is crying"
+        embed.set_image(url=result.url)
         await ctx.send(embed=embed)
 
-    @commands.command()
-    @checks.has_permissions(PermissionLevel.REGULAR)
-    async def smug(self, ctx, *, user: discord.Member):
-        """Smug at a user!"""
-
-        author = ctx.message.author
-        smugs = nekos.img('smug')
-
-        # Building The Embed
-        embed = discord.Embed(color=self.bot.main_color)
-        embed.description = f"**{author.name} smugs at {user.mention}**"
-        embed.set_footer(text="Made with the help of nekos.life")
-        embed.set_image(url=smugs)
-        await ctx.send(embed=embed)        
-
-    @commands.command()
-    @checks.has_permissions(PermissionLevel.REGULAR)
-    async def cuddle(self, ctx, *, user: discord.Member):
-        """Cuddle a user!"""
-
-        author = ctx.message.author
-        cuddles = nekos.img('cuddle')
-
-        # Building The Embed
-        embed = discord.Embed(color=self.bot.main_color)
-        embed.description = f"**{author.mention} cuddles {user.mention}**"
-        embed.set_footer(text="Made with the help of nekos.life")
-        embed.set_image(url=cuddles)
-        await ctx.send(embed=embed)   
-
-    @commands.command()
-    @checks.has_permissions(PermissionLevel.REGULAR)
-    async def poke(self, ctx, *, user: discord.Member):
-        """Poke a user!"""
-
-        author = ctx.message.author
-        pokes = nekos.img('poke')
-
-        # Building The Embed
-        embed = discord.Embed(color=self.bot.main_color)
-        embed.description = f"**{author.mention} pokes {user.mention}**"
-        embed.set_footer(text="Made with the help of nekos.life")
-        embed.set_image(url=pokes)
-        await ctx.send(embed=embed)        
-
-    @commands.command()
-    @checks.has_permissions(PermissionLevel.REGULAR)
-    async def feed(self, ctx, *, user: discord.Member):
-        """Feed a user!"""
-
-        author = ctx.message.author
-        feeds = nekos.img('feed')
-
-        # Building The Embed
-        embed = discord.Embed(color=self.bot.main_color)
-        embed.description = f"**{author.mention} feeds {user.mention}**"
-        embed.set_footer(text="Made with the help of nekos.life")
-        embed.set_image(url=feeds)
-        await ctx.send(embed=embed)        
-        
 def setup(bot):
-    bot.add_cog(Action(bot))     
+    bot.add_cog(Action(bot))
