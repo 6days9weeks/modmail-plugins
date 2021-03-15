@@ -30,11 +30,11 @@ class Action(commands.Cog):
 
         if user is not ctx.author:
             embed = discord.Embed(colour=user.colour)
-            msg = f"> *{author.mention} kisses {user.mention}* <a:kiss:795291849119367169>"
+            msg = f"> *{author.mention} kisses {user.mention}*"
             embed.set_image(url=result.url)
             return await ctx.send(content=msg, embed=embed)
         else:
-            msg = "Congratulations, you kissed yourself! LOL!!! <a:kiss:795291849119367169>"
+            msg = "Congratulations, you kissed yourself! LOL!!!"
             await ctx.reply(msg)
 
     @commands.command()
@@ -159,10 +159,10 @@ class Action(commands.Cog):
 
         embed = discord.Embed(colour=author.colour)
         if not user:
-            msg = f"> *{author.mention} smugs at @\u200bsomeone* <:kotorismug:795293439980732416>"
+            msg = f"> *{author.mention} smugs at @\u200bsomeone*"
         else:
             user = user[0]
-            msg = f"> *{author.mention} smugs at {user.mention}* <:kotorismug:795293439980732416>"
+            msg = f"> *{author.mention} smugs at {user.mention}*"
         embed.set_image(url=result.url)
         await ctx.send(content=msg, embed=embed)
 
