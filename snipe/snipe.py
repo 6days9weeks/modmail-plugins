@@ -1,6 +1,6 @@
-P='{0.name}#{0.discriminator}'
-O='There is nothing to snipe!'
-N=str
+O='{0.name}#{0.discriminator}'
+N='There is nothing to snipe!'
+M=str
 J='id'
 H='attachment'
 G='channel'
@@ -14,7 +14,7 @@ import discord as I
 from discord.ext import commands as C
 snipe={J:A,D:A,E:A,H:A,F:A,G:A}
 B={E:A,D:A,F:A,G:A}
-class M(C.Cog):
+class Snipe(C.Cog):
 	def __init__(A,bot):A.bot=bot
 	@C.Cog.listener()
 	async def on_message_delete(self,message):
@@ -34,8 +34,8 @@ class M(C.Cog):
 	@C.cooldown(1,10,C.BucketType.member)
 	async def snipe(self,ctx):
 		B=ctx;global snipe
-		if snipe[F]!=B.guild or snipe[G]!=B.channel or snipe[D]==A:K=I.Embed(color=16764365,description=O);M=await B.send(embed=K);return await M.delete(delay=4)
-		C=I.Embed(description=N(snipe[D]),colour=16764365);C.set_author(name=P.format(snipe[E]),icon_url=snipe[E].avatar_url);C.set_footer(text=f"sniped by {B.author.name}#{B.author.discriminator}",icon_url=B.author.avatar_url)
+		if snipe[F]!=B.guild or snipe[G]!=B.channel or snipe[D]==A:K=I.Embed(color=16764365,description=N);P=await B.send(embed=K);return await P.delete(delay=4)
+		C=I.Embed(description=M(snipe[D]),colour=16764365);C.set_author(name=O.format(snipe[E]),icon_url=snipe[E].avatar_url);C.set_footer(text=f"sniped by {B.author.name}#{B.author.discriminator}",icon_url=B.author.avatar_url)
 		if snipe[H]is not A:
 			async with self.bot.session.get(snipe[H])as Q:J=L(await Q.read())
 			C.set_image(url='attachment://snipe.jpg');await B.send(embed=C,file=I.File(J,filename='snipe.jpg'));snipe[H]=A;J.close()
@@ -44,6 +44,8 @@ class M(C.Cog):
 	@C.cooldown(1,10,C.BucketType.member)
 	async def editsnipe(self,ctx):
 		C=ctx
-		if B[F]!=C.guild or B[G]!=C.channel or B[D]==A:J=I.Embed(color=16764365,description=O);K=await C.send(embed=J);return await K.delete(delay=4)
-		H=I.Embed(description=N(B[D]),colour=16764365);H.set_footer(text=f"sniped by {C.author.name}#{C.author.discriminator}",icon_url=C.author.avatar_url);H.set_author(name=P.format(B[E]),icon_url=B[E].avatar_url);await C.send(embed=H)
-def Q(bot):bot.add_cog(M(bot))
+		if B[F]!=C.guild or B[G]!=C.channel or B[D]==A:J=I.Embed(color=16764365,description=N);K=await C.send(embed=J);return await K.delete(delay=4)
+		H=I.Embed(description=M(B[D]),colour=16764365);H.set_footer(text=f"sniped by {C.author.name}#{C.author.discriminator}",icon_url=C.author.avatar_url);H.set_author(name=O.format(B[E]),icon_url=B[E].avatar_url);await C.send(embed=H)
+		
+def setup(bot):
+    bot.add_cog(Snipe(bot))
