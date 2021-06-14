@@ -129,7 +129,7 @@ class Genshin(commands.Cog):
         """The status embed or smth"""
         embed = discord.Embed(
             title="Server Status",
-            description="Members: {}".format(self.bot.get_guild(699158208027164723).member_count),
+            description="Members: {}".format(self.bot.modmail_guild.member_count),
             timestamp=datetime.datetime.utcnow(),
         )
         embed.add_field(
