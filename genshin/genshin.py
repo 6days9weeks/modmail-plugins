@@ -235,6 +235,11 @@ class Genshin(commands.Cog):
         else:
             await ctx.reply("Give an valid url and it should be `png/jpeg/gif/jpg/webp`.")
 
+    @commands.command()
+    @commands.has_permissions(manage_messages=True)
+    async def imessedup(self, ctx):
+        await self.obtain_shit()
+        await ctx.reply("Should work.")
 
 def setup(bot):
     cog = Genshin(bot)
