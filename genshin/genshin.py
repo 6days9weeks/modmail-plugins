@@ -102,14 +102,13 @@ class Genshin(commands.Cog):
     def eutime():
         """Get time left for daily in EU till 4am their time."""
         now = datetime.datetime.now(pytz.timezone("Europe/Dublin"))
-        utc_time_for_tz_loop: datetime.datetime = (
+        time_for_4_am: datetime.datetime = (
             datetime.datetime.combine(
-                now.date() + datetime.timedelta(days=1), datetime.time(hour=4)
+                now.date() + datetime.timedelta(days=0), datetime.time(hour=4)
             )
-            - now.utcoffset()
         )
-        delta = utc_time_for_tz_loop - datetime.datetime.utcnow()
-        return humanize.time.precisedelta(delta, minimum_unit="minutes", format="%0.f")
+        delta = pytz.timezone("Europe/Dublin").localize(time_for_4_am) - datetime.datetime.now(pytz.timezone("Europe/Dublin"))
+        return humanize.time.precisedelta(delta, minimum_unit="minutes", format="%0.f")`
 
     @staticmethod
     def eutimew():
