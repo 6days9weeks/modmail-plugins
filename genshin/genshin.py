@@ -108,7 +108,7 @@ class Genshin(commands.Cog):
             )
         )
         delta = pytz.timezone("Europe/Dublin").localize(time_for_4_am) - datetime.datetime.now(pytz.timezone("Europe/Dublin"))
-        return humanize.time.precisedelta(delta, minimum_unit="minutes", format="%0.f")`
+        return humanize.time.precisedelta(delta, minimum_unit="minutes", format="%0.f")
 
     @staticmethod
     def eutimew():
