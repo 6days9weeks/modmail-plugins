@@ -1,3 +1,4 @@
+"""Shamefully yoinked and tailored to my needs from https://github.com/ow0x/owo-cogs/commit/07fbe9ae8558c3931c0c6147740d317b21cd08bc"""
 from typing import Optional
 
 import discord
